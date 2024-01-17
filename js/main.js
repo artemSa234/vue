@@ -23,9 +23,10 @@ let app = new Vue({
         this.image = variantImage
         },
      methods: {
-        deleteToCart() {
-            this.cart -= 1
+        AddToCart() {
+            this.cart += 1
             }
         },
+        inStock: true,
    }
 })
