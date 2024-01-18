@@ -6,42 +6,34 @@ Vue.component("product", {
     },
   },
   template: `
-    <div class="product">
-     <div class="product-image">
-     <img :src="image" :alt="altText"/>
-     </div>
-
-     <div class="product-info">
-         <h1>{{ title }}</h1>
-         <p v-if="inStock">In stock</p>
-         <p v-else>Out of Stock</p>
-         <ul>
-             <li v-for="detail in details">{{ detail }}</li>
-         </ul>
-        <p>Shipping: {{ shipping }}</p>
-         <div
-                 class="color-box"
-                 v-for="(variant, index) in variants"
-                 :key="variant.variantId"
-                 :style="{ backgroundColor:variant.variantColor }"
-                 @mouseover="updateProduct(index)"
-         ></div>
+  <div class="product">
+   <div class="product-image">
+          <img :src="image" :alt="altText"/>
+      </div>
         
-
-         <div class="cart">
-             <p>Cart({{ cart }})</p>
-         </div>
-
-         <button
-                 v-on:click="addToCart"
-                 :disabled="!inStock"
-                 :class="{ disabledButton: !inStock }"
-         >
-             Add to cart
-         </button>
+      <div class="product-info">
+          <h1>{{ title }}</h1>
+          <p v-if="inStock">In stock</p>
+          <p v-else>Out of Stock</p>
+          <ul>
+          <li v-for="detail in details">{{ detail }}</li>
+      </ul>
+     <p>Shipping: {{ shipping }}</p>
+      <div
+              class="color-box"
+              v-for="(variant, index) in variants"
+              :key="variant.variantId"
+              :style="{ backgroundColor:variant.variantColor }"
+              @mouseover="updateProduct(index)"
+      ></div>
      
-     </div>
- </div>
+          <button v-on:click="addToCart" :disabled="!inStock" :class="{ disabledButton: !inStock }">Add to cart</button>
+          <button v-on:click="removeFromCart">remove from cart</button>
+
+
+      </div>
+  </div>
+</div>
 `,
   data() {
     return {
@@ -64,16 +56,17 @@ Vue.component("product", {
           variantQuantity: 0,
         },
       ],
-      cart: 0,
     };
   },
   methods: {
     addToCart() {
-      this.cart += 1;
-    },
-    updateProduct(index) {
-      this.selectedVariant = index;
-      console.log(index);
+      this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId);
+  },
+  updateProduct(index) {
+      this.selectedVariant = index
+  },
+  removeFromCart() {
+      this.$emit('remove-from-cart', this.variants[this.selectedVariant].variantId)
     },
   },
   computed: {
@@ -99,5 +92,17 @@ let app = new Vue({
   el: "#app",
   data: {
     premium: true,
+    cart: [],
+  },
+  methods: {
+    updateCart(id) {
+      this.cart.push(id);
+    },
+    removeCart(id) {
+      const index = this.cart.indexOf(id);
+      if (index !== -1) {
+        this.cart.splice(index, 1);
+      }
+    },
   },
 });
