@@ -1,6 +1,6 @@
 body {
     font-family: tahoma;
-    color:#282828;
+    color: #282828;
     margin: 0px;
 }
 
@@ -24,7 +24,7 @@ img {
 }
 
 .product-image {
-    width: 80%;
+    flex-basis: 700px;
 }
 
 .product-image,
@@ -52,7 +52,6 @@ button {
     background-color: #1E95EA;
     color: white;
     height: 40px;
-    width: 100px;
     font-size: 14px;
 }
 
@@ -88,6 +87,6 @@ textarea {
     text-decoration: underline;
 }
 
-.out-of-stock {
+.outOfStock {
     text-decoration: line-through;
-  }
+}
